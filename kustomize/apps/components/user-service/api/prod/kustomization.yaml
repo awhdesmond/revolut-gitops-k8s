@@ -1,4 +1,3 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -9,6 +8,7 @@ commonLabels:
 resources:
 - ../base
 - ingress.yaml
+- secret-provider-class.yaml
 
 patches:
 - path: deployment.yaml
@@ -17,4 +17,4 @@ patches:
 images:
 - name: revolut-user-service
   newName: 974860574511.dkr.ecr.eu-west-1.amazonaws.com/revolut-user-service
-  newTag: baff3fc-dirty
+  newTag: 46d35e6-dirty

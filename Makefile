@@ -12,3 +12,6 @@ clean-kind:
 
 platform:
 	./scripts/deploy-platform.sh $(KUBE_CONTEXT) $(ENV)
+
+user-service:
+	./scripts/deploy-user-service.sh $(KUBE_CONTEXT) $(ENV)

@@ -3,3 +3,7 @@ kind: Kustomization
 
 resources:
 - ../base
+
+patches:
+- path: crb-argocd-application-controller.yaml
+- path: crb-argocd-server.yaml

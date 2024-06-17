@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/awhdesmond/revolut-gitops-k8s
     targetRevision: HEAD
-    path: kustomize/apps/setups/user-service/prof/eks
+    path: kustomize/apps/setups/user-service/prod/eks
   destination:
     server: https://kubernetes.default.svc
     namespace: revolut

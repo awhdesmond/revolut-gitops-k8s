@@ -25,14 +25,14 @@ Platform components provide shared cluster-level functionalities and capabilitie
 
 
 ```bash
-# Change to your aws-lbc role arn
+# Use the output from terraform: aws_lbc_role_arn
 export AWS_LBC_ROLE_ARN=arn:aws:iam::974860574511:role/eks-aws-lbc
 
 sed -i '' \
     -e "s|eks.amazonaws.com\/role-arn:.*|eks.amazonaws.com/role-arn: ${AWS_LBC_ROLE_ARN}|g" \
     kustomize/platform/components/aws-lbc/base/templates/serviceaccount.yaml
 
-make platform <KUBECTL_CONTEXT> <ENV>
+make platform KUBECTL_CONTEXT=<KUBECTL_CONTEXT> ENV=<ENV>
 ```
 
 > `ENV` is either `prod` or `local`
@@ -54,7 +54,13 @@ make platform <KUBECTL_CONTEXT> <ENV>
 * Provides an ordering for deploying the components
 
 ```bash
-./scripts/deploy-user-service.sh <KUBECTL_CONTEXT> <ENV>
+# Use the output from terraform: revolut_user_service_role_arn
+export USER_SERVICE_ROLE_ARN=arn:aws:iam::974860574511:role/eks-revolut-user-service-role
+sed -i '' \
+    -e "s|eks.amazonaws.com\/role-arn:.*|eks.amazonaws.com/role-arn: ${USER_SERVICE_ROLE_ARN}|g" \
+    kustomize/apps/components/user-service/api/prod/sa.yaml
+
+./scripts/deploy-user-service.sh KUBE_CONTEXT=<KUBECTL_CONTEXT> ENV=<ENV>
 ```
 
 > `ENV` is either `prod` or `local`

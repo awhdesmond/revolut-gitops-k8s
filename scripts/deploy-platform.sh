@@ -17,10 +17,16 @@ done
 if [[ $ENV == prod ]]; then
     # Enable prefix mode for VPC-CNI
     # https://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/
+    echo "Enabling vpc-cni ENABLE_PREFIX_DELEGATION"
     kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 fi
 
-# Setup networking
+# Set up load balancers
+
+if [[ $ENV == prod]]; then
+    # Need to deploy aws-lbc crds first
+    kubectl apply -k kustomize/platform/setups/01-aws-lbc-crds/$ENV || true
+fi
 
 kubectl apply -k kustomize/platform/setups/02-load-balancers/$ENV || true
 sleep 5
@@ -31,7 +37,7 @@ if [[ $ENV == local ]]; then
         --selector=app=metallb \
         --for=condition=ready pod \
         --timeout=90s
-    kubectl apply -k kustomize/platform/setups/01-networking/$ENV
+    kubectl apply -k kustomize/platform/setups/02-load-balancers/$ENV
 fi
 
 for setup in '03-ingress' '04-argocd' '05-secrets-store'

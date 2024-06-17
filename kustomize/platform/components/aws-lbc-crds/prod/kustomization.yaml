@@ -1,10 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- templates/deployment.yaml
-- templates/ingressclass.yaml
-- templates/rbac.yaml
-- templates/service.yaml
-- templates/serviceaccount.yaml
-- templates/webhook.yaml
 - https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml

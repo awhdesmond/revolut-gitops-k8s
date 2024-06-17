@@ -4,4 +4,4 @@ kind: ServiceAccount
 metadata:
   name: api
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::424432388155:role/staging-demo-myapp-secrets
+    eks.amazonaws.com/role-arn: arn:aws:iam::974860574511:role/eks-revolut-user-service-role

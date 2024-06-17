@@ -5,9 +5,9 @@ metadata:
   name: api
 spec:
   replicas: 1
-  serviceAccountName: api
   template:
     spec:
+      serviceAccountName: api
       containers:
       - name: api
         image: revolut-user-service:v0.1.0

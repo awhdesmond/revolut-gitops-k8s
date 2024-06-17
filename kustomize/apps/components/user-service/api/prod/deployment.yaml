@@ -16,6 +16,10 @@ spec:
               app: api
       containers:
       - name: api
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
         env:
         - name: REVOLUT_USERS_SVC_HOST
           value: "0.0.0.0"
@@ -34,11 +38,23 @@ spec:
         - name: REVOLUT_USERS_SVC_POSTGRES_USERNAME
           value: "postgres"
         - name: REVOLUT_USERS_SVC_POSTGRES_PASSWORD
-          value: "GORpsoeb5ajCOZ5K3wwB"
+          valueFrom:
+            secretKeyRef:
+              name: user-service-aws-secrets
+              key: postgres-password
         - name: REVOLUT_USERS_SVC_POSTGRES_DATABASE
           value: "postgres"
         - name: REVOLUT_USERS_SVC_REDIS_URI
           value: "redis://clustercfg.users.vjad9t.euw1.cache.amazonaws.com:6379/0"
         - name: REVOLUT_USERS_SVC_REDIS_PASSWORD
-          value: "t1$T#l>N7who4nWh^0lQqm9s0xj513LPUak7C6j^kEDi0r-2Ga5MNe!8b9<eSoooTwHDt1>!<XZfQED3Op75oZFo2mPwq!WLcEWMqJb9<ZzsXY7HYeswIJ16YUzRZD2!"
-
+          valueFrom:
+            secretKeyRef:
+              name: user-service-aws-secrets
+              key: elasticache-password
+      volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: user-service-aws-secrets
