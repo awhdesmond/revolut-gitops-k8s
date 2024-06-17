@@ -4,13 +4,16 @@ set -exu
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
 CONTEXT=${1-'kind-kind-1'}
+ENV=prod
 
 kubectx ${CONTEXT}
 
 # Only deploy metallb in local clusters
 if [[ $CONTEXT == kind-* ]]; then
+    ENV=local
+
     echo "Deploying MetalLB"
-    kubectl apply -k kustomize/platform/setups/02-networking/local || true
+    kubectl apply -k kustomize/platform/setups/02-networking/$ENV || true
     sleep 5
 
     # MetalLB CRD is not installed, wait for deployment to be ready and reapply
@@ -18,7 +21,7 @@ if [[ $CONTEXT == kind-* ]]; then
         --selector=app=metallb \
         --for=condition=ready pod \
         --timeout=90s
-    kubectl apply -k kustomize/platform/setups/02-networking/local
+    kubectl apply -k kustomize/platform/setups/02-networking/$ENV
 fi
 
 for ns in platform-argocd platform-ingress
@@ -28,6 +31,6 @@ done
 
 for setup in '03-ingress' '04-argocd'
 do
-    kubectl apply --server-side -k kustomize/platform/setups/${setup}/local || true
+    kubectl apply -k kustomize/platform/setups/${setup}/$ENV || true
     sleep 5
 done
