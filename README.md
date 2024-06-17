@@ -8,19 +8,34 @@ Gitops repository for K8s platform components as well as application services.
 | ------------ | ---------------- |
 | user-service | revolut-user-svc |
 
-* `kustomize/apps/components/*`: Contains k8s manifests for deploying an app/component to kubernetes. It uses sub-directories to indicates which cluster to deploy those manifests.
-* `kustomize/apps/setups/*`: Contains setups that are groups of related apps/components that should be deployed together to provide some functionality.
+`kustomize/apps/components/*`:
+
+Contains k8s manifests for deploying an app/component to kubernetes. It uses sub-directories to indicates which cluster to deploy those manifests.
+
+`kustomize/apps/setups/*`
+
+Contains setups that are groups of related apps/components that should be deployed together to provide some functionality.
 
 ## Platform Components
+
+Platform components provide shared cluster-level functionalities and capabilities to support services deployed by product developers.
 
 | Component     | Namespace        |
 | ------------- | ---------------- |
 | ArgoCD        | platform-argocd  |
 | NGINX Ingress | platform-ingress |
 
-* `kustomize/platform/components/*`: Contains k8s manifests for deploying a platfrom component to kubernetes. It uses sub-directories to indicates which cluster to deploy those manifests.
-* `kustomize/platform/setups/*`: Contains setups that are groups of related components that should be deployed together to provide some functionality.
+`kustomize/platform/components/*`
 
+Contains k8s manifests for deploying a platfrom component to kubernetes. It uses sub-directories to indicates which cluster to deploy those manifests.
+
+`kustomize/platform/setups/*`
+
+Contains setups that are groups of related components that should be deployed together to provide some functionality.
+
+```bash
+./scripts/deploy-platfrom <KUBECTL_CONTEXT>
+```
 
 ## Local KinD
 
