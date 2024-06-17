@@ -1,0 +1,29 @@
+---
+# Source: aws-load-balancer-controller/templates/ingressclass.yaml
+apiVersion: v1
+kind: List
+metadata:
+  name: ingress-class
+items:
+- apiVersion: elbv2.k8s.aws/v1beta1
+  kind: IngressClassParams
+  metadata:
+    name: alb
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      helm.sh/chart: aws-load-balancer-controller-1.8.1
+      app.kubernetes.io/name: aws-load-balancer-controller
+      app.kubernetes.io/instance: aws-load-balancer-controller
+      app.kubernetes.io/version: "v2.8.1"
+- apiVersion: networking.k8s.io/v1
+  kind: IngressClass
+  metadata:
+    name: alb
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      helm.sh/chart: aws-load-balancer-controller-1.8.1
+      app.kubernetes.io/name: aws-load-balancer-controller
+      app.kubernetes.io/instance: aws-load-balancer-controller
+      app.kubernetes.io/version: "v2.8.1"
+  spec:
+    controller: ingress.k8s.aws/alb

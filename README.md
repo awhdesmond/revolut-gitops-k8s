@@ -6,30 +6,36 @@ Gitops repository for K8s platform components as well as application services.
 
 Platform components provide shared cluster-level functionalities and capabilities to support services deployed by product developers.
 
-| Component     | Namespace        |
-| ------------- | ---------------- |
-| ArgoCD        | platform-argocd  |
-| AWS-LBC       | platform-cloud   |
-| NGINX Ingress | platform-ingress |
+| Component         | Namespace        |
+| ----------------- | ---------------- |
+| AWS-LBC           | platform-cloud   |
+| NGINX Ingress     | platform-ingress |
+| ArgoCD            | platform-argocd  |
+| Secrets Store CSI | platform-secrets |
 
 `kustomize/platform/components/*`
 
-Contains k8s manifests for deploying a platform component to kubernetes. It uses sub-directories to indicates which cluster to deploy those manifests.
+* k8s manifests for deploying a platform component.
+* Sub-directories indicates which environment to deploy.
 
 `kustomize/platform/setups/*`
 
-Contains setups that are groups of related components that should be deployed together to provide some functionality.
+* Setups are groups of related components that should be deployed together to provide some functionality.
+* Provides an ordering for deploying the components.
+
 
 ```bash
-./scripts/deploy-platform.sh <KUBECTL_CONTEXT>
+# Change to your aws-lbc role arn
+export AWS_LBC_ROLE_ARN=arn:aws:iam::974860574511:role/eks-aws-lbc
 
+sed -i '' \
+    -e "s|eks.amazonaws.com\/role-arn:.*|eks.amazonaws.com/role-arn: ${AWS_LBC_ROLE_ARN}|g" \
+    kustomize/platform/components/aws-lbc/base/templates/serviceaccount.yaml
 
-# Get default password. The default user is 'admin'
-kubectl -n platform-argocd get secret argocd-initial-admin-secret \
-    -o jsonpath="{.data.password}" | base64 -d
-
-kubectl -n platform-argocd port-forward svc/argocd-server 8080:443
+make platform <KUBECTL_CONTEXT> <ENV>
 ```
+
+> `ENV` is either `prod` or `local`
 
 ## Application Components
 
@@ -39,15 +45,20 @@ kubectl -n platform-argocd port-forward svc/argocd-server 8080:443
 
 `kustomize/apps/components/*`:
 
-Contains k8s manifests for deploying an app/component to kubernetes. It uses sub-directories to indicates which cluster to deploy those manifests.
+* k8s manifests for deploying an app/component to kubernetes.
+* Sub-directories to indicates which environment to deploy those manifests.
 
 `kustomize/apps/setups/*`
 
-Contains setups that are groups of related apps/components that should be deployed together to provide some functionality.
+* Setups are groups of related components that should be deployed together to provide some functionality.
+* Provides an ordering for deploying the components
 
 ```bash
-./scripts/deploy-user-service.sh <KUBECTL_CONTEXT>
+./scripts/deploy-user-service.sh <KUBECTL_CONTEXT> <ENV>
 ```
+
+> `ENV` is either `prod` or `local`
+
 
 ## Local KinD
 
@@ -55,5 +66,5 @@ We will use [KinD](https://kind.sigs.k8s.io/) to bootstrap a local kubernetes cl
 
 ```bash
 brew install kind
-make clusters
+make kind
 ```

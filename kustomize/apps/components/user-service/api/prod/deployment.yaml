@@ -4,10 +4,9 @@ kind: Deployment
 metadata:
   name: api
 spec:
-  replicas: 3
+  replicas: 1
   template:
     spec:
-      serviceAccountName: api
       topologySpreadConstraints:
         - maxSkew: 1
           whenUnsatisfiable: ScheduleAnyway
@@ -39,7 +38,7 @@ spec:
         - name: REVOLUT_USERS_SVC_POSTGRES_DATABASE
           value: "postgres"
         - name: REVOLUT_USERS_SVC_REDIS_URI
-          value: "redis://default:t1$T#l>N7who4nWh^0lQqm9s0xj513LPUak7C6j^kEDi0r-2Ga5MNe!8b9<eSoooTwHDt1>!<XZfQED3Op75oZFo2mPwq!WLcEWMqJb9<ZzsXY7HYeswIJ16YUzRZD2!@clustercfg.users.vjad9t.euw1.cache.amazonaws.com:6379/0"
+          value: "redis://clustercfg.users.vjad9t.euw1.cache.amazonaws.com:6379/0"
         - name: REVOLUT_USERS_SVC_REDIS_PASSWORD
           value: "t1$T#l>N7who4nWh^0lQqm9s0xj513LPUak7C6j^kEDi0r-2Ga5MNe!8b9<eSoooTwHDt1>!<XZfQED3Op75oZFo2mPwq!WLcEWMqJb9<ZzsXY7HYeswIJ16YUzRZD2!"
 

@@ -3,7 +3,7 @@
 set -exu
 
 CONTEXT=${1-'kind-kind-1'}
-ENV=prod
+ENV=${2-prod}
 
 kubectl create ns revolut || true
 

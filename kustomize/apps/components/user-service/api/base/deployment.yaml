@@ -5,6 +5,7 @@ metadata:
   name: api
 spec:
   replicas: 1
+  serviceAccountName: api
   template:
     spec:
       containers:

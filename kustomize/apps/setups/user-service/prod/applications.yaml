@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: user-service-eks
+  namespace: platform-argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/awhdesmond/revolut-gitops-k8s
+    targetRevision: HEAD
+    path: kustomize/apps/setups/user-service/prof/eks
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: revolut

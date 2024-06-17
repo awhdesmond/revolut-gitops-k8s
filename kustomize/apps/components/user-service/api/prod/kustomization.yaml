@@ -9,12 +9,12 @@ commonLabels:
 resources:
 - ../base
 - ingress.yaml
-- sa.yaml
 
 patches:
 - path: deployment.yaml
+- path: sa.yaml
 
 images:
-  - name: revolut-user-service
-    newName: 974860574511.dkr.ecr.eu-west-1.amazonaws.com/revolut-user-service
-    newTag: f685ee1-dirty
+- name: revolut-user-service
+  newName: 974860574511.dkr.ecr.eu-west-1.amazonaws.com/revolut-user-service
+  newTag: baff3fc-dirty
