@@ -1,9 +1,10 @@
-.PHONY: kind
+.PHONY: clusters clean-clusters clean
 
-kind:
-    kind create cluster -n kind-1 --config=kind/kind-1.yaml
+clusters:
+	./scripts/create-cluster.sh kind-1
+	./scripts/deploy-platform.sh kind-kind-1
 
 clean-clusters:
-    kind delete cluster --name kind-1
+	kind delete cluster --name kind-1
 
 clean: clean-clusters
