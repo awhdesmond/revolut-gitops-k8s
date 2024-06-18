@@ -21,6 +21,8 @@ kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 # Need to deploy aws-lbc crds first
 kubectl apply -k kustomize/platform/setups/01-aws-lbc-crds/$ENV || true
 
+
+# Foundational components
 for setup in '02-load-balancers' '03-ingress' '04-logging' '05-secrets-store'
 do
     kustomize_path=kustomize/platform/setups/${setup}/$ENV
@@ -29,3 +31,15 @@ do
         sleep 10
     fi
 done
+
+# Prometheus
+for setup in '10-prometheus-crd' '11-prometheus-operator' '12-prometheus'
+do
+    kustomize_path=kustomize/platform/setups/${setup}/$ENV
+    if [[ -d $kustomize_path ]]; then
+        kubectl apply -k kustomize/platform/setups/${setup}/$ENV || true
+        sleep 10
+    fi
+done
+
+
