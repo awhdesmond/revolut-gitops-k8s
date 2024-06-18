@@ -7,7 +7,7 @@ ENV=${2-prod}
 
 kubectx ${CONTEXT}
 
-for ns in platform-ingress platform-secrets platform-cloud amazon-cloudwatch
+for ns in platform-ingress platform-secrets platform-cloud platform-monitoring amazon-cloudwatch
 do
     kubectl create ns $ns || true
 done
@@ -31,15 +31,3 @@ do
         sleep 10
     fi
 done
-
-# Prometheus
-for setup in '10-prometheus-crd' '11-prometheus-operator' '12-prometheus'
-do
-    kustomize_path=kustomize/platform/setups/${setup}/$ENV
-    if [[ -d $kustomize_path ]]; then
-        kubectl apply -k kustomize/platform/setups/${setup}/$ENV || true
-        sleep 10
-    fi
-done
-
-

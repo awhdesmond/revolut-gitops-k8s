@@ -6,13 +6,13 @@ Gitops repository for K8s platform components as well as application services.
 
 Platform components provide foundational cluster-level functionalities and capabilities to support services deployed by product developers.
 
-| Component         | Namespace           |
-| ----------------- | ------------------- |
-| AWS-LBC           | platform-cloud      |
-| NGINX Ingress     | platform-ingress    |
-| FluentBit         | amazon-cloudwatch   |
-| Secrets Store CSI | platform-secrets    |
-| Prometheus        | platform-monitoring |
+| Component         | Namespace         |
+| ----------------- | ----------------- |
+| AWS-LBC           | platform-cloud    |
+| NGINX Ingress     | platform-ingress  |
+| FluentBit         | amazon-cloudwatch |
+| Secrets Store CSI | platform-secrets  |
+
 
 `kustomize/platform/components/*`
 
