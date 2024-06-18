@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: revolut
 
 resources:
-- ../../../../components/user-service/prod
+- ../../../components/user-service/prod

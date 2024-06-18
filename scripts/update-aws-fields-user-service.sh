@@ -19,7 +19,7 @@ sed -i '' \
     -e "s|redis:\/\/.*.cache.amazonaws.com:6379/0|redis:\/\/${REDIS_URI}:6379\/0|g" \
     deployment.yaml
 
-# Replace RDS endpoint
+# Replace RDS endpoint in deployment and job
 sed -i '' \
     -e "s|: \".*rds.amazonaws.com|: \"${RDS_HOST}|g" \
     deployment.yaml

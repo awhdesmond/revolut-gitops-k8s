@@ -9,4 +9,4 @@ kubectl create ns revolut || true
 
 kubectx ${CONTEXT}
 
-kubectl apply -k kustomize/apps/setups/user-service/$ENV/eks
+kubectl apply -k kustomize/apps/setups/user-service/$ENV

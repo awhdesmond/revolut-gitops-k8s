@@ -7,7 +7,7 @@ ENV=${2-prod}
 
 kubectx ${CONTEXT}
 
-for ns in platform-argocd platform-ingress platform-secrets platform-cloud
+for ns in platform-ingress platform-secrets platform-cloud
 do
     kubectl create ns $ns || true
 done

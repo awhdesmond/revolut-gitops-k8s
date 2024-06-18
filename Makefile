@@ -1,7 +1,7 @@
 .PHONY: clusters clean-clusters clean
 
 KUBE_CONTEXT?=kind-kind1
-ENV?=local
+ENV?=prod
 
 kind:
 	./scripts/create-cluster.sh kind-1
