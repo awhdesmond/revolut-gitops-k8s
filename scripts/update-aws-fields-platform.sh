@@ -14,8 +14,6 @@ sed -i '' \
     serviceaccount.yaml
 popd
 
-pushd kustomize/platform/components/aws-lbc/base/templates
-
 echo "Updating prometheus"
 
 pushd kustomize/platform/components/prometheus/base
@@ -27,7 +25,7 @@ sed -i '' \
 
 # Replace prometheus endpoint
 sed -i '' \
-    -e "s|url:.*|url:${PROMETHEUS_ENDPOINT}|g" \
+    -e "s|url:.*|url: ${PROMETHEUS_ENDPOINT}|g" \
     prometheus.yaml
 
 popd
