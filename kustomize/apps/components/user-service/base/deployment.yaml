@@ -7,6 +7,11 @@ spec:
   replicas: 1
   template:
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 2000
       serviceAccountName: api
       containers:
       - name: api
@@ -19,3 +24,6 @@ spec:
             containerPort: 8080
           - name: metrics
             containerPort: 8081
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
