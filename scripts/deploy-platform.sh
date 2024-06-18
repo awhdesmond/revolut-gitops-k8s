@@ -7,7 +7,7 @@ ENV=${2-prod}
 
 kubectx ${CONTEXT}
 
-for ns in platform-ingress platform-secrets platform-cloud platform-monitoring amazon-cloudwatch
+for ns in platform-ingress platform-secrets platform-cloud amazon-cloudwatch
 do
     kubectl create ns $ns || true
 done
