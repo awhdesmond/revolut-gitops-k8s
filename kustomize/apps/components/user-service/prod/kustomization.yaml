@@ -13,8 +13,9 @@ resources:
 patches:
 - path: deployment.yaml
 - path: sa.yaml
+- path: job.yaml
 
 images:
 - name: revolut-user-service
   newName: 974860574511.dkr.ecr.eu-west-1.amazonaws.com/revolut-user-service
-  newTag: 46d35e6-dirty
+  newTag: bc7ac5b-dirty

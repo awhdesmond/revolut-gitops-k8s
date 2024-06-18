@@ -10,7 +10,6 @@ Platform components provide shared cluster-level functionalities and capabilitie
 | ----------------- | ---------------- |
 | AWS-LBC           | platform-cloud   |
 | NGINX Ingress     | platform-ingress |
-| ArgoCD            | platform-argocd  |
 | Secrets Store CSI | platform-secrets |
 
 `kustomize/platform/components/*`
@@ -26,16 +25,12 @@ Platform components provide shared cluster-level functionalities and capabilitie
 
 ```bash
 # Use the output from terraform: aws_lbc_role_arn
-export AWS_LBC_ROLE_ARN=arn:aws:iam::974860574511:role/eks-aws-lbc
+export AWS_LBC_ROLE_ARN=<aws_lbc_role_arn from terraform output>
 
-sed -i '' \
-    -e "s|eks.amazonaws.com\/role-arn:.*|eks.amazonaws.com/role-arn: ${AWS_LBC_ROLE_ARN}|g" \
-    kustomize/platform/components/aws-lbc/base/templates/serviceaccount.yaml
+./scripts/update-aws-fields-platform.sh
 
-make platform KUBECTL_CONTEXT=<KUBECTL_CONTEXT> ENV=<ENV>
+make platform KUBE_CONTEXT=${EKS_KUBECTL_CONTEXT}
 ```
-
-> `ENV` is either `prod` or `local`
 
 ## Application Components
 
@@ -54,23 +49,11 @@ make platform KUBECTL_CONTEXT=<KUBECTL_CONTEXT> ENV=<ENV>
 * Provides an ordering for deploying the components
 
 ```bash
-# Use the output from terraform: revolut_user_service_role_arn
-export USER_SERVICE_ROLE_ARN=arn:aws:iam::974860574511:role/eks-revolut-user-service-role
-sed -i '' \
-    -e "s|eks.amazonaws.com\/role-arn:.*|eks.amazonaws.com/role-arn: ${USER_SERVICE_ROLE_ARN}|g" \
-    kustomize/apps/components/user-service/api/prod/sa.yaml
+export USER_SERVICE_ROLE_ARN=<revolut_user_service_role_arn from terraform >
+export RDS_HOST=<first rds_hostnames from terraform>
+export REDIS_URI=<elasticache_cluster_configuration_endpoint from terraform>
 
-./scripts/deploy-user-service.sh KUBE_CONTEXT=<KUBECTL_CONTEXT> ENV=<ENV>
-```
+./scripts/update-aws-fields-user-service.sh
 
-> `ENV` is either `prod` or `local`
-
-
-## Local KinD
-
-We will use [KinD](https://kind.sigs.k8s.io/) to bootstrap a local kubernetes cluster and deploy components into it.
-
-```bash
-brew install kind
-make kind
+make user-service KUBE_CONTEXT=${EKS_KUBECTL_CONTEXT}
 ```

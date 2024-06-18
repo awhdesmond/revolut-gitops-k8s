@@ -45,7 +45,7 @@ spec:
         - name: REVOLUT_USERS_SVC_POSTGRES_DATABASE
           value: "postgres"
         - name: REVOLUT_USERS_SVC_REDIS_URI
-          value: "redis://clustercfg.users.vjad9t.euw1.cache.amazonaws.com:6379/0"
+          value: "redis://clustercfg.users.vjad9t.euw1.cache.amazonaws.com:6379/0:6379/0"
         - name: REVOLUT_USERS_SVC_REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
