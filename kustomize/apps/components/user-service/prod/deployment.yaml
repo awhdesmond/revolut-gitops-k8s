@@ -26,7 +26,7 @@ spec:
         - name: REVOLUT_USERS_SVC_PORT
           value: "8080"
         - name: REVOLUT_USERS_SVC_METRICS_PORT
-          value: "8081"
+          value: "9090"
         - name: REVOLUT_USERS_SVC_LOG_LEVEL
           value: "debug"
         - name: REVOLUT_USERS_SVC_CORS_ORIGIN

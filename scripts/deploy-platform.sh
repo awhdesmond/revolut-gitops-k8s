@@ -7,7 +7,7 @@ ENV=${2-prod}
 
 kubectx ${CONTEXT}
 
-for ns in platform-ingress platform-secrets platform-cloud
+for ns in platform-ingress platform-secrets platform-cloud amazon-cloudwatch
 do
     kubectl create ns $ns || true
 done
@@ -21,7 +21,7 @@ kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 # Need to deploy aws-lbc crds first
 kubectl apply -k kustomize/platform/setups/01-aws-lbc-crds/$ENV || true
 
-for setup in '02-load-balancers' '03-ingress' '05-secrets-store'
+for setup in '02-load-balancers' '03-ingress' '04-logging' '05-secrets-store'
 do
     kustomize_path=kustomize/platform/setups/${setup}/$ENV
     if [[ -d $kustomize_path ]]; then
